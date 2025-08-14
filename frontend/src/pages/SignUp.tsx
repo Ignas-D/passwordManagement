@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function SignUp(){
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [masterPass, setMasterPass] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -15,8 +15,8 @@ export default function SignUp(){
       return;
     }
     try {
-      const res = await axios.post("http://localhost:5000/register", {
-        username,
+      const res = await axios.post("http://localhost:5000/auth/register", {
+        email,
         masterPass
       });
       setMessage(res.data.message);
@@ -33,8 +33,8 @@ export default function SignUp(){
             <form onSubmit={handleSubmit}>
                 <input type="text"
                        placeholder="Email"
-                       value={username}
-                       onChange={(e) => setUsername(e.target.value)}
+                       value={email}
+                       onChange={(e) => setEmail(e.target.value)}
                        ></input>
                 <input type="text"
                        placeholder="Master Password"
