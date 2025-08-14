@@ -4,11 +4,11 @@ import NavBar from "../components/NavBar.tsx";
 export default function Home() {
     return (
         <>
-            <div>
+            <div className="bg-amber-700">
                 {<NavBar/>}
             </div>
             <div>
-                <h1 classname="text-bold">
+                <h1 className={"bg-amber-700 text-6xl"}>
                     Welcome to the Password Manager!
                 </h1>
                 <p>I created this Password Manager as a way to randomly generate and hold onto my own personal passwords
