@@ -8,7 +8,7 @@ export default function Home() {
                 {<NavBar/>}
             </div>
             <div>
-                <h1>
+                <h1 classname="text-bold">
                     Welcome to the Password Manager!
                 </h1>
                 <p>I created this Password Manager as a way to randomly generate and hold onto my own personal passwords
