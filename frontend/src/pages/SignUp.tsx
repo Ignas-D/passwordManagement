@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-
 export default function SignUp(){
     const [email, setEmail] = useState("");
     const [masterPass, setMasterPass] = useState("");
@@ -30,7 +29,6 @@ export default function SignUp(){
 
 
     return(
-        <>
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
                 <div className="w-full max-w-md">
                     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
@@ -58,7 +56,7 @@ export default function SignUp(){
                                     ></input>
                                 </div>
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 mt-2">
                                         Master Password
                                     </label>
                                     <div className="relative">
@@ -78,7 +76,7 @@ export default function SignUp(){
                                     </div>
                                 </div>
                                 <div>
-                                    <label htmlFor="Confirm" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="Confirm" className="block text-sm font-medium text-gray-700 mb-2 mt-2">
                                         Confirm Password
                                     </label>
                                     <div className={"relative"}>
@@ -100,7 +98,7 @@ export default function SignUp(){
                                 </div>
                                 <div>
                                     <button type="button"
-                                            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Register
+                                            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4">Register
                                     </button>
                                 </div>
                             </form>
@@ -117,6 +115,5 @@ export default function SignUp(){
 
                 </div>
             </div>
-        </>
     )
 };
