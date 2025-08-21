@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import {Eye, EyeOff, Shield} from 'lucide-react';
 
 
 export default function SignUp(){
@@ -39,7 +38,6 @@ export default function SignUp(){
                         <div className="text-center mb-8">
                             <div
                                 className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                                                            <Shield className="w-8 h-8 text-blue-600" />
 
                             </div>
                             <h1 className="text-2xl font-bold text-gray-900 mb-2">Create an Account!</h1>
@@ -76,7 +74,6 @@ export default function SignUp(){
                                             onClick={() => setShowPassword(!showPassword)}
                                             className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
                                         >
-                                            {showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
                                         </button>
                                     </div>
                                 </div>
@@ -98,8 +95,6 @@ export default function SignUp(){
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                             className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
                                         >
-                                            {showConfirmPassword ? <EyeOff className="w-5 h-5"/> :
-                                                <Eye className="w-5 h-5"/>}
                                         </button>
                                     </div>
                                 </div>
