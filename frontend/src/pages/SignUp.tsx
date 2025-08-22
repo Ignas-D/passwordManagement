@@ -1,5 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import Icon from '@mdi/react';
+import { mdiShield, mdiEye, mdiEyeClosed} from '@mdi/js';
+
 
 export default function SignUp(){
     const [email, setEmail] = useState("");
@@ -7,36 +10,47 @@ export default function SignUp(){
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [message, setMessage] = useState("");
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (masterPass !== confirmPassword) {
-      setMessage("Passwords do not match");
+      //   fix this later, display to the user
+      console.log("Passwords do not match");
       return;
     }
     try {
-      const res = await axios.post("http://localhost:5000/auth/register", {
-        email,
-        masterPass
-      });
-      setMessage(res.data.message);
-    } catch (err) {
-      setMessage(err.response?.data?.error || "Error registering");
+        console.log(masterPass);
+        console.log(confirmPassword);
+        console.log(email);
+      const response = await axios.post("http://localhost:5000/auth/register",
+        {email, masterPass},
+        {
+            headers: {
+                "Content-Type"
+            :
+                "application/json"
+            }
+        ,
+        }
+      );
+      console.log(response.data);
+      alert(response.data.message);
+    } catch (err: any) {
+      console.log(err.response?.data?.error || "Error registering");
     }
   };
 
 
     return(
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 select-none cursor-default">
                 <div className="w-full max-w-md">
                     <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                         {/* Header */}
                         <div className="text-center mb-8">
                             <div
                                 className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-
+                                <Icon path={mdiShield} size={1} />
                             </div>
                             <h1 className="text-2xl font-bold text-gray-900 mb-2">Create an Account!</h1>
                             <p className="text-gray-600">Secure your digital life with a master password</p>
@@ -72,6 +86,7 @@ export default function SignUp(){
                                             onClick={() => setShowPassword(!showPassword)}
                                             className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
                                         >
+                                            {showPassword ? <Icon path={mdiEye} size={1} /> : <Icon path={mdiEyeClosed} size={1} />}
                                         </button>
                                     </div>
                                 </div>
@@ -93,6 +108,7 @@ export default function SignUp(){
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                             className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
                                         >
+                                            {showConfirmPassword ? <Icon path={mdiEye} size={1} /> : <Icon path={mdiEyeClosed} size={1} />}
                                         </button>
                                     </div>
                                 </div>

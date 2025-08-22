@@ -4,19 +4,19 @@ from flask_bcrypt import Bcrypt
 from models import User, SessionLocal
 
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 bcrypt = Bcrypt()
 
 def hash_password(password):
     hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
     return hashed_pw
 
-@auth_bp.route('/sign-up', methods=['POST'])
+@auth_bp.route('/register', methods=['POST', 'OPTIONS'])
 def register():
     data = request.json
     email = data.get('email')
     masterPass = data.get('masterPass')
-
+    print(email, masterPass)
     db = SessionLocal()
     try:
 
