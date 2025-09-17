@@ -1,10 +1,19 @@
 import {useState} from "react";
+import {loginUser} from "../services/api.tsx";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [masterPass, setMasterPass] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = () => {}
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const res = await loginUser(email, masterPass);
+            console.log("Logging in: ", res);
+        }  catch(err){
+            console.error("Registration failed:", err);
+        }
+    }
 
 
     return (
