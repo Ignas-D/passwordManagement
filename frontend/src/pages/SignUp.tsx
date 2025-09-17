@@ -1,46 +1,24 @@
 import { useState } from "react";
-import axios from "axios";
 import Icon from '@mdi/react';
 import { mdiShield, mdiEye, mdiEyeClosed} from '@mdi/js';
-
+import {registerUser} from "../services/api";
 
 export default function SignUp(){
     const [email, setEmail] = useState("");
-    const [masterPass, setMasterPass] = useState("");
+    const [masterpass, setMasterPass] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (masterPass !== confirmPassword) {
-      //   fix this later, display to the user
-      console.log("Passwords do not match");
-      return;
-    }
     try {
-        console.log(masterPass);
-        console.log(confirmPassword);
-        console.log(email);
-      const response = await axios.post("http://localhost:5000/auth/register",
-        {email, masterPass},
-        {
-            headers: {
-                "Content-Type"
-            :
-                "application/json"
-            }
-        ,
-        }
-      );
-      console.log(response.data);
-      alert(response.data.message);
-    } catch (err: any) {
-      console.log(err.response?.data?.error || "Error registering");
+      const data = await registerUser(email, masterpass);
+      console.log("Registered:", data);
+    } catch (err) {
+      console.error("Registration failed:", err);
     }
   };
-
 
     return(
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 select-none cursor-default">
@@ -76,7 +54,7 @@ export default function SignUp(){
                                     <div className="relative">
                                         <input type={showPassword ? 'text' : 'password'}
                                                placeholder="Master Password"
-                                               value={masterPass}
+                                               value={masterpass}
                                                onChange={(e) => setMasterPass(e.target.value)}
                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         >
@@ -114,6 +92,7 @@ export default function SignUp(){
                                 </div>
                                 <div>
                                     <button type="button"
+                                            onClick={handleSubmit}
                                             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4">Register
                                     </button>
                                 </div>
@@ -128,8 +107,8 @@ export default function SignUp(){
                             </p>
                         </div>
                     </div>
-
                 </div>
+
             </div>
     )
 };

@@ -1,27 +1,18 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
-from flask_cors import CORS
-from flask_migrate import Migrate
-
-db = SQLAlchemy()
-jwt = JWTManager()
-migrate = Migrate()
+from .auth.routes import auth_bp
+from .extensions import db, jwt, cors
 
 
-def create_app():
+def create_app(config_class="app.config.DevConfig"):
     app = Flask(__name__)
-    app.config.from_object('app.config.Config')
+    app.config.from_object(config_class)
 
-    db.init_app(app)
-    jwt.init_app(app)
-    migrate.init_app(app, db)
-    CORS(app)
+    # Initialize extensions.py
 
-    from app.routes.auth import auth_bp
-    from app.routes.passwords import passwords_bp
+    cors.init_app(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-    app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(passwords_bp, url_prefix='/api/passwords')
+    # Register blueprints
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+    #app.register_blueprint(vault_bp, url_prefix="/vault")
 
     return app
