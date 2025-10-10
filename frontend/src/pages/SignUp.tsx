@@ -2,6 +2,7 @@ import { useState } from "react";
 import Icon from '@mdi/react';
 import { mdiShield, mdiEye, mdiEyeClosed} from '@mdi/js';
 import {registerUser} from "../services/api";
+import {useNavigate} from "react-router-dom";
 
 export default function SignUp(){
     const [email, setEmail] = useState("");
@@ -9,14 +10,17 @@ export default function SignUp(){
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const data = await registerUser(email, masterpass);
       console.log("Registered:", data);
-    } catch (err) {
-      console.error("Registration failed:", err);
+      localStorage.setItem("token", data.token || true);
+      navigate("\dashboard")
+    } catch (err: any) {
+        alert(err.message);
     }
   };
 
