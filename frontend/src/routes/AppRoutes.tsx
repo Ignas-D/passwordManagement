@@ -5,16 +5,21 @@ import Dashboard from "../pages/Dashboard.tsx";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound.tsx";
 import SignUp from "../pages/SignUp.tsx"
+import ProtectedRoute from '../components/ProtectedRoute';
+
 
 export default function AppRoutes() {
-  return (
+    return (
       <Routes>
       {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />}/>
       {/* Protected Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element=
+              {<ProtectedRoute>
+                <Dashboard />
+                </ProtectedRoute>}/>
           <Route path="/NotFound" element={<NotFound />} />
         </Routes>
   );

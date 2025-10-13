@@ -1,26 +1,17 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from ..extensions import db
 
-Base = declarative_base()
-engine = create_engine("sqlite:///passwords.db")
-SessionLocal = sessionmaker(bind=engine)
-
-class User(Base):
+class User(db.Model):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    hashed_password = Column(String)
-    vault_entries = relationship("VaultEntry", back_populates="user")
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String, unique=True, nullable=False)
+    hashed_password = db.Column(db.LargeBinary, nullable=False)
+    vault_entries = db.relationship("VaultEntry", back_populates="user", cascade="all, delete-orphan")
 
-class VaultEntry(Base):
+
+class VaultEntry(db.Model):
     __tablename__ = "vault_entries"
-    id = Column(Integer, primary_key=True)
-    service = Column(String)
-    encrypted_password = Column(String)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("User", back_populates="vault_entries")
-
-# Create tables
-Base.metadata.create_all(engine)
+    id = db.Column(db.Integer, primary_key=True)
+    service = db.Column(db.String, nullable=False)
+    encrypted_password = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = db.relationship("User", back_populates="vault_entries")
