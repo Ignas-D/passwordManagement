@@ -17,7 +17,7 @@ def register():
     if email is None or master_pass is None:
         return jsonify({"error": "email and password are required"}), 400
 
-    existing_user = User.query.filter_by(username=email).first()
+    existing_user = User.query.filter_by(email=email).first()
     if existing_user:
         return jsonify({"error": "Email already registered"}), 409
 
@@ -25,7 +25,7 @@ def register():
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(pass_bytes, salt)
 
-    register_user = User(username=email, hashed_password=hashed_password)
+    register_user = User(email=email, hashed_password=hashed_password)
     db.session.add(register_user)
     db.session.commit()
     return jsonify({"message": "User registered", "email": email})
@@ -37,10 +37,15 @@ def login():
     data = request.get_json()
     email = data.get("email")
     master_pass = data.get("masterPass")
-    bytes = master_pass.encode('utf-8')
-    salt = bcrypt.gensalt()
-    password = bcrypt.hashpw(bytes, salt)
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error": "Email not found"}), 404
+    mast_enc = master_pass.encode('utf-8')
+    stored_hash = user.hashed_password
+    if isinstance(stored_hash, str):
+        stored_hash = stored_hash.encode('utf-8')
 
-    login = User.query.filter_by(email=email, hashed_password=password).first()
-    if login is not None:
-        return jsonify({"message": "User exists", "email": email})
+    if user and bcrypt.checkpw(mast_enc, stored_hash):
+        return jsonify({"message": "Login successful", "email": email}), 200
+    else:
+        return jsonify({"error": "Invalid email or password"}), 401

@@ -18,7 +18,7 @@ export default function SignUp(){
       const data = await registerUser(email, masterpass);
       console.log("Registered:", data);
       localStorage.setItem("token", data.token || true);
-      navigate("\dashboard")
+      navigate("/dashboard")
     } catch (err: any) {
         alert(err.message);
     }

@@ -1,17 +1,22 @@
 import {useState} from "react";
 import {loginUser} from "../services/api.tsx";
+import {useNavigate} from "react-router-dom";
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [masterPass, setMasterPass] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const navigate =  useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const res = await loginUser(email, masterPass);
+            localStorage.setItem("token", res.token || true);
             console.log("Logging in: ", res);
-        }  catch(err){
-            console.error("Registration failed:", err);
+            navigate("/dashboard");
+        }  catch(err: any){
+            console.log("Issue with logging in");
         }
     }
 
@@ -65,6 +70,7 @@ export default function Login() {
 
                                 <div>
                                     <button type="button"
+                                            onClick={handleSubmit}
                                             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4">Login
                                     </button>
                                 </div>

@@ -20,9 +20,13 @@ export const registerUser = async (email: string, masterPass: string) => {
     }
   }
 };
-
 // Login user
 export const loginUser = async (email: string, masterPass: string) => {
-  const response = await API.post("http://localhost:5050/auth/login", { email, masterPass });
-  return response.data;
+  try{
+    const response = await API.post("http://localhost:5050/auth/login", { email, masterPass });
+    return response.data;
+  } catch(error: any){
+    console.log("error");
+  }
+
 };
